@@ -43,15 +43,6 @@ local function requesturl(url, bypass)
 end 
 
 
---shared.Future.entity = loadstring(game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/Libraries/entityHandler.lua"))()
-
--- anti mobile skids:
-
-(function() 
-    local entity = loadstring(game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/Libraries/entityHandler.lua"))()
-end)()
-
-
 -- AntiPreloadAsync:
 local suc, err = pcall(function()
     if not shared.AntiPreloadAsync then
