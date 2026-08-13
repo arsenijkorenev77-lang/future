@@ -28,19 +28,45 @@ local betterisfile = function(file)
 end
 Future.SignalLib = true
 
-local function requesturl(url, bypass) 
-    if betterisfile(url) and shared.FutureDeveloper then 
+local function requesturl(url, bypass)
+    if betterisfile(url) and shared.FutureDeveloper then
         return readfile(url)
     end
-    local repourl = bypass and "https://raw.githubusercontent.com/arsenijkorenev77-lang/" or "https://raw.githubusercontent.com/arsenijkorenev77-lang/Future/main/"
-    local url = url:gsub("Future/", "")
+
+    local repourl
+
+    if bypass then
+        repourl = "https://raw.githubusercontent.com/arsenijkorenev77-lang/"
+    else
+        repourl = "https://raw.githubusercontent.com/arsenijkorenev77-lang/Future/main/"
+    end
+
+    local cleanurl = url:gsub("^Future/", "")
+    local finalurl = repourl .. cleanurl
+
+    print("[Future] Requesting: " .. finalurl)
+
     local req = requestfunc({
-        Url = repourl..url,
+        Url = finalurl,
         Method = "GET"
     })
-    if req.StatusCode ~= 200 then return req.StatusCode end
+
+    print("[Future] HTTP status: " .. tostring(req.StatusCode))
+
+    if req.StatusCode ~= 200 then
+        error(
+            "[Future] Failed to download '" ..
+            url ..
+            "'\nURL: " ..
+            finalurl ..
+            "\nHTTP: " ..
+            tostring(req.StatusCode)
+        )
+    end
+
     return req.Body
-end 
+end
+
 
 
 -- AntiPreloadAsync:
